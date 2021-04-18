@@ -12,11 +12,11 @@ app = Flask(__name__)
 def check_schema(conf_schema, conf):
     try:
         conf_schema.validate(conf)
-        return None
+        return ""
     except SchemaError:
         return SchemaError
 
-@app.route('/make_shipment/<shipment>')
+@app.route('/make_shipment/<shipment>', methods=['POST'])
 def make_shipment(shipment):
     """
     shipment = { 
@@ -42,7 +42,7 @@ def make_shipment(shipment):
         
     return ""
 
-@app.route('/make_truck/<truck>')
+@app.route('/make_truck/<truck>', methods=['POST'])
 def make_truck(truck):
     """
     truck = {
@@ -65,7 +65,7 @@ def make_truck(truck):
     schema_validation = check_schema(conf_schema, truck)
     if schema_validation != None:
         return schema_validation
-        
+    
     return ""
 
 @app.route('/')
