@@ -1,26 +1,71 @@
 import json
 import datetime
 import pandas as pd
-
 from flask import Flask
 import requests
-
 import os
+from schema import Schema, And, Use, SchemaError
+
 
 app = Flask(__name__)
 
-@app.route('/get_directions/<coordinates>')
-def get_directions(coordinates):
+def check_schema(conf_schema, conf):
+    try:
+        conf_schema.validate(conf)
+        return None
+    except SchemaError:
+        return SchemaError
+
+@app.route('/make_shipment/<shipment>')
+def make_shipment(shipment):
     """
-    TODO
+    shipment = { 
+        ID: string,
+        Weight: integer,
+        Origin_Latitude: float,
+        Origin_Longitude: float,
+        Destination_Latitude: float,
+        Destination_Longitude: float
+    }
     """
+    conf_schema = Schema({
+        'ID': And(Use(str)),
+        'Weight': And(Use(int)),
+        'Origin_Latitude': And(Use(float)),
+        'Origin_Longitude': And(Use(float)),
+        'Destination_Latitude': And(Use(float)),
+        'Destination_Longitude': And(Use(float))
+        })
+    schema_validation = check_schema(conf_schema, shipment)
+    if schema_validation != None:
+        return schema_validation
+        
     return ""
 
-@app.route('/get_geocode/<address>')
-def get_geocoded(address):
+@app.route('/make_truck/<truck>')
+def make_truck(truck):
     """
-    TODO
+    truck = {
+        ID: string,
+        Capacity: integer,
+        Origin_Latitude: float,
+        Origin_Longitude: float,
+        Destination_Latitude: float,
+        Destination_Longitude: float
+    }
     """
+    conf_schema = Schema({
+        'ID': And(Use(str)),
+        'Capacity': And(Use(int)),
+        'Origin_Latitude': And(Use(float)),
+        'Origin_Longitude': And(Use(float)),
+        'Destination_Latitude': And(Use(float)),
+        'Destination_Longitude': And(Use(float))
+        })
+    schema_validation = check_schema(conf_schema, truck)
+    if schema_validation != None:
+        return schema_validation
+        
     return ""
 
 @app.route('/')
