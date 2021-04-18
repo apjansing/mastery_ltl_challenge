@@ -27,7 +27,7 @@ def get_geocoded(address):
 @app.route('/<path:p>')
 def wikiproxy(p = ''):
     import requests
-    url = 'https://apjansing.github.io/Open-House-Route-Planner/{0}'.format(p)
+    url = 'https://apjansing.github.io/mastery_ltl_challenge/{0}'.format(p)
     try:
         r = requests.get(url)
     except Exception as e:
