@@ -1,0 +1,35 @@
+version: '3.5'
+services: 
+  mongo:
+    container_name: mongo
+    image: mongo:${MONGODB_TAG}
+    ports: 
+      - ${MONGO_EXTERNAL}:${MONGO_INTERNAL}
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes: 
+      - ./mongo/db:/data/db
+  flask_app:
+    container_name: flask_app
+    image: python:${FLASK_APP_TAG}
+    ports: 
+      - ${FLASK_APP_EXTERNAL}:${FLASK_APP_INTERNAL}
+    volumes: 
+      - ./dependencies/esri.txt:/requirements.txt
+      - ./flask_app.py:/flask_app.py
+  ltl:
+    env_file: credentials.env
+    container_name: ltl_balancer
+    image: image: python:${LTL_TAG}
+    volumes: 
+      - ./dependencies/ltl.txt:/requirements.txt
+      - ./ltl.py:/ltl.py
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+
+networks: 
+  neighborhood:
+    name: ${DC_NETWORK}
+    driver: bridge
