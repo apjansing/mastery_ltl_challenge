@@ -1,3 +1,13 @@
+# MongoDB
+*.wt
+journal
+mongo.lock*.bson
+*.data
+*.lock
+*.turtle
+WiredTiger*
+*.bson
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
