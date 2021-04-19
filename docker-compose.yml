@@ -16,19 +16,11 @@ services:
     ports: 
       - ${FLASK_APP_EXTERNAL}:${FLASK_APP_INTERNAL}
     volumes: 
-      - ./dependencies/esri.txt:/requirements.txt
-      - ./flask_app.py:/flask_app.py
-  ltl:
-    env_file: credentials.env
-    container_name: ltl_balancer
-    image: image: python:${LTL_TAG}
-    volumes: 
-      - ./dependencies/ltl.txt:/requirements.txt
-      - ./ltl.py:/ltl.py
+      - ./flask_app:/flask_app
     environment: 
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-
+    entrypoint: [/flask_app/entrypoint.sh]
 networks: 
   neighborhood:
     name: ${DC_NETWORK}
