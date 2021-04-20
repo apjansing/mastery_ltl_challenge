@@ -95,16 +95,16 @@ def make_truck():
 
 @app.route('/get_shipments', methods=['GET'])
 def get_shipments():
-    return mongo_ops.search_shipment()
+    return f'{list(mongo_ops.search_shipment())}'
 
 @app.route('/get_trucks', methods=['GET'])
 def get_trucks():
-    return mongo_ops.search_truck()
+    return f'{list(mongo_ops.search_truck())}'
 
 @app.route('/generate_report', methods=['GET'])
 def generate_report():
-    trucks = get_trucks()
-    shipments = get_shipments()
+    trucks = mongo_ops.search_truck()
+    shipments = mongo_ops.search_shipment()
     organizer = TruckOrganizer(trucks, shipments)
     return f'''
     <title>Example Truck and Shipment Report</title>
