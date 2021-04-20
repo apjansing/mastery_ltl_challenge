@@ -45,11 +45,11 @@ class MongoOps():
     inserted_id = self._insert_one(self.shipments_collection, data)
     return True, inserted_id.inserted_id
 
-  def _search_collection(self, collection, search_val = None, limit = 1):
-    return collection.find(search_val).limit(limit)
+  def _search_collection(self, collection, search_val = None, limit = None):
+    return collection.find(search_val).limit(limit) if limit else collection.find(search_val)
 
-  def search_truck(self, id):
-    return self._search_collection(self.trucks_collection, id)
+  def search_truck(self, id = None, limit = None):
+    return self._search_collection(self.trucks_collection, id) 
     
-  def search_shipment(self, id):
+  def search_shipment(self, id = None, limit = None):
     return self._search_collection(self.shipments_collection, id)
