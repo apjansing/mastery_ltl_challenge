@@ -4,6 +4,7 @@ from flask import Flask, request
 import requests
 import os
 from MongoOps import MongoOps
+from TruckOrganizer import TruckOrganizer
 
 
 app = Flask(__name__)
@@ -91,6 +92,27 @@ def make_truck():
 
         '''
     return insert_results
+
+@app.route('/get_shipments', methods=['GET'])
+def get_shipments():
+    return mongo_ops.search_shipment()
+
+@app.route('/get_trucks', methods=['GET'])
+def get_trucks():
+    return mongo_ops.search_truck()
+
+@app.route('/generate_report', methods=['GET'])
+def generate_report():
+    trucks = get_trucks()
+    shipments = get_shipments()
+    organizer = TruckOrganizer(trucks, shipments)
+    return f'''
+    <title>Example Truck and Shipment Report</title>
+    <h1>This is an example report.</h1><br>
+    {str(organizer)}
+    '''
+    # return organizer.allocate_shipments()
+
 
 @app.route('/')
 @app.route('/<path:p>')
