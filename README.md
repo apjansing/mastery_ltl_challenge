@@ -1,4 +1,4 @@
-# Mastery Less-than-load (LTL) Challenge
+# [Mastery Less-than-load (LTL) Challenge](https://apjansing.github.io/mastery_ltl_challenge/)
 
 - [Mastery Less-than-load (LTL) Challenge](#mastery-less-than-load-ltl-challenge)
   - [Requirements](#requirements)
